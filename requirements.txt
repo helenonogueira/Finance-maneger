@@ -1,0 +1,1 @@
+echo "flask\nsqlalchemy\npsycopg2-binary" >> requirements.txt

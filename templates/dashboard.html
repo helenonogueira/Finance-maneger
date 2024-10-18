@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h2>Resumo Financeiro</h2>
+    <p>Receitas: R$ {{ receitas }}</p>
+    <p>Despesas: R$ {{ despesas }}</p>
+
+    <h3>Gráfico de Resumo</h3>
+    <div id="piechart"></div>
+
+    <!-- Google Charts API -->
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+      // Carregar a visualização do pacote de gráficos do Google Charts
+      google.charts.load('current', {'packages':['corechart']});
+      
+      // Definir callback que será executado após o carregamento
+      google.charts.setOnLoadCallback(drawChart);
+
+      // Função que desenha o gráfico
+      function drawChart() {
+        var data = google.visualization.arrayToDataTable([
+          ['Categoria', 'Valor'],
+          ['Receitas', {{ receitas }}],
+          ['Despesas', {{ despesas }}],
+        ]);
+
+        var options = {
+          title: 'Resumo Mensal',
+          pieHole: 0.4,   // Gráfico do tipo donut
+          colors: ['#4caf50', '#f44336'],  // Cores personalizadas para receitas e despesas
+        };
+
+        // Criar e desenhar o gráfico dentro do div com id "piechart"
+        var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+        chart.draw(data, options);
+      }
+    </script>
+{% endblock %}
